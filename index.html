@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW"><head><meta charset="utf-8"><title>星域剪輯 · 瀏覽器影片剪輯器</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0d0b1a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="星域剪輯">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header><h1>✦ 星域剪輯</h1><span class="sub">純瀏覽器影片剪輯 · 無需伺服器</span>
+<div class="spacer"></div>
+<label class="ratio">比例 <select id="aspect"><option value="16:9">16:9 橫向</option><option value="9:16">9:16 直向</option></select></label>
+<label class="btn">＋ 匯入<input id="fileInput" type="file" multiple accept="video/*,image/*,audio/*" hidden></label>
+<button id="exportBtn" class="btn gold">⬇ WebM</button><button id="exportMp4Btn" class="btn gold">⬇ MP4</button></header>
+<main>
+<section id="library" class="panel tabpane" data-tab="media"><h2>媒體庫</h2><div id="drop" class="drop">拖放或點「＋ 匯入」選取影片／音訊／圖片<br>（手機可從相簿選取）</div><ul id="mediaList"></ul></section>
+<section id="center">
+ <div class="stage"><canvas id="canvas" width="1280" height="720"></canvas></div>
+ <div class="controls">
+  <button id="playBtn" class="btn big">▶ 播放</button>
+  <button id="splitBtn" class="btn big">✂ 分割</button>
+  <button id="delBtn" class="btn big">🗑 刪除</button>
+  <span id="timeLabel">00:00.0 / 00:00.0</span>
+  <div class="spacer"></div>
+  <button id="zoomOut" class="btn big" title="縮小">－</button>
+  <input id="zoom" type="range" min="10" max="200" value="60">
+  <button id="zoomIn" class="btn big" title="放大">＋</button>
+ </div>
+ <div id="timelineWrap"><div id="timeline">
+  <div id="ruler"></div>
+  <div class="track"><span class="tlabel">影片</span><div id="videoTrack" class="lane"></div></div>
+  <div class="track"><span class="tlabel">文字</span><div id="textTrack" class="lane"></div></div>
+  <div class="track"><span class="tlabel">音樂</span><div id="musicTrack" class="lane"></div></div>
+  <div id="playhead"></div></div></div>
+</section>
+<section id="inspector" class="panel">
+ <div class="tabpane" data-tab="clip"><h2>片段屬性</h2><div id="clipProps"><p class="muted">選取時間軸上的片段</p></div></div>
+ <div class="tabpane" data-tab="text"><h2>文字疊加</h2><button id="addText" class="btn small">＋ 新增文字</button><div id="textProps"></div></div>
+ <div class="tabpane" data-tab="music"><h2>背景音樂</h2><div id="musicProps"><p class="muted">在媒體庫點「設為音樂」</p></div></div>
+ <div class="tabpane" data-tab="settings"><h2>淡入淡出</h2>
+ <label>整體淡入 (秒) <input id="fadeIn" type="number" min="0" step="0.1" value="0.5"></label>
+ <label>整體淡出 (秒) <input id="fadeOut" type="number" min="0" step="0.1" value="0.5"></label>
+ <h2>畫面</h2><label><input id="fitCover" type="checkbox"> 填滿畫面（裁切邊緣，適合橫片轉直式）</label><h2>操作說明</h2><p class="muted">桌機快捷鍵：空白鍵 播放/暫停 · S 分割 · Delete 刪除 · ←/→ 移動 0.1 秒<br>手機：點選片段、拖曳排序、拖兩端把手修剪；雙指縮放時間軸。</p></div>
+</section></main>
+<nav id="tabbar">
+ <button data-tab="media" class="on">🎞<span>媒體</span></button><button data-tab="clip">✂<span>片段</span></button>
+ <button data-tab="text">T<span>文字</span></button><button data-tab="music">♪<span>音樂</span></button><button data-tab="settings">⚙<span>設定</span></button>
+</nav>
+<div id="overlay" hidden><div class="box"><p id="overlayMsg">匯出中…</p><progress id="prog" max="1" value="0"></progress><button id="cancelExport" class="btn small">取消</button></div></div>
+<script src="lib/mp4-muxer.js"></script><script src="app.js"></script></body></html>
